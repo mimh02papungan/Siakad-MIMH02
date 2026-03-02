@@ -191,7 +191,7 @@ export default function RekapPage() {
                 }
             `}</style>
 
-            <div className="no-print">
+            <div className="no-print h-full flex flex-col">
                 <Sidebar
                     user={user}
                     handleLogout={handleLogout}
@@ -199,6 +199,7 @@ export default function RekapPage() {
                     setIsOpen={setSidebarOpen}
                 />
             </div>
+
 
             <main id="rekap-main-content" className="flex-1 overflow-y-auto p-4 md:p-8 relative">
                 {/* BACKGROUND DECORATIONS */}

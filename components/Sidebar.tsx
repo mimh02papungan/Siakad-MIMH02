@@ -69,7 +69,7 @@ export default function Sidebar({ user, handleLogout, isOpen, setIsOpen }: Sideb
 
             {/* SIDEBAR */}
             <aside className={`
-        fixed inset-y-0 left-0 w-72 bg-[#1e293b] border-r border-slate-800 flex flex-col z-50 transition-transform duration-300 ease-in-out md:relative md:translate-x-0
+        fixed inset-y-0 left-0 w-72 bg-[#1e293b] border-r border-slate-800 flex flex-col z-50 transition-transform duration-300 ease-in-out md:relative md:translate-x-0 h-full
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
                 <div className="p-6 flex items-center justify-between">
