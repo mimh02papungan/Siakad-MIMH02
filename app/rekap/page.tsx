@@ -5,6 +5,7 @@ import Link from "next/link";
 import * as XLSX from "xlsx";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
+import { exportStyledExcel } from "@/lib/excelUtils";
 
 
 export default function RekapPage() {
@@ -72,27 +73,16 @@ export default function RekapPage() {
     const totalAll = dataSiswa.length;
 
     const handleExportExcel = () => {
-        // Create a specific format for the Rekap
-        const rows: any[] = [
-            ["REKAPITULASI JUMLAH SISWA"],
-            ["MI MIFTAHUL HUDA 02 PAPUNGAN"],
-            ["TAHUN PELAJARAN 2025/2026"],
-            [],
-            ["KELAS", "LAKI-LAKI", "PEREMPUAN", "JUMLAH"],
-        ];
-
-        ["1", "2", "3", "4", "5", "6"].forEach(k => {
+        const headers = ["KELAS", "LAKI-LAKI", "PEREMPUAN", "TOTAL"];
+        const dataRows = ["1", "2", "3", "4", "5", "6"].map(k => {
             const l = rekapSiswa[k]?.L || 0;
             const p = rekapSiswa[k]?.P || 0;
-            rows.push([`KELAS ${k}`, l, p, l + p]);
+            return [`KELAS ${k}`, l, p, l + p];
         });
 
-        rows.push(["TOTAL", totalL, totalP, totalAll]);
+        dataRows.push(["TOTAL", totalL, totalP, totalAll]);
 
-        const worksheet = XLSX.utils.aoa_to_sheet(rows);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "REKAP SISWA");
-        XLSX.writeFile(workbook, `Rekap_Siswa_${new Date().toISOString().split('T')[0]}.xlsx`);
+        exportStyledExcel([headers, ...dataRows], `Rekap_Siswa_${new Date().toISOString().split('T')[0]}.xlsx`, "REKAP SISWA");
     };
 
     const handleLogout = async () => {

@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
+import { exportStyledExcel } from "@/lib/excelUtils";
 
 
 export default function GuruPage() {
@@ -201,46 +202,85 @@ export default function GuruPage() {
     };
 
     const handleExportExcel = () => {
-        const dataToExport = dataGuru;
-        if (dataToExport.length === 0) return alert("Data kosong!");
-        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "GURU");
-        XLSX.writeFile(workbook, `Data_Guru_${new Date().toISOString().split('T')[0]}.xlsx`);
+        const sortedData = [...dataGuru].sort((a, b) => {
+            const namaA = (a.namaLengkap || "").toLowerCase();
+            const namaB = (b.namaLengkap || "").toLowerCase();
+            return namaA.localeCompare(namaB);
+        });
+
+        if (sortedData.length === 0) return alert("Data kosong!");
+
+        const headers = [
+            "No", "Nama Lengkap", "NIK", "NUPTK", "PEGID", "NPK", "L/P", "Tempat Lahir", "Tgl Lahir", "Umur",
+            "Kualifikasi", "Thn Lulus", "Sertifikasi", "Thn Sertifikasi", "Inpassing", "NRG", "TMT",
+            "No SK Awal", "Masa Kerja", "Tugas Tambahan", "No. HP", "Email", "No. Rekening", "Ibu Kandung", "Status"
+        ];
+
+        const dataRows = sortedData.map((item, idx) => [
+            idx + 1,
+            item.namaLengkap,
+            item.nik,
+            item.nuptk || "-",
+            item.pegid || "-",
+            item.npk || "-",
+            item.jenisKelamin,
+            item.tempatLahir,
+            item.tanggalLahir ? new Date(item.tanggalLahir).toLocaleDateString("id-ID") : "-",
+            item.umur,
+            item.kualifikasiAkademik,
+            item.tahunLulus,
+            item.statusSertifikasi,
+            item.tahunSertifikasi,
+            item.statusImpasing,
+            item.nrg,
+            item.tmt,
+            item.noSkAwal,
+            item.masaKerja,
+            item.tugasTambahan,
+            item.nomorHandphone,
+            item.email,
+            item.noRekening,
+            item.namaIbuKandung || item.namaIbu || "-",
+            item.status
+        ]);
+
+        exportStyledExcel([headers, ...dataRows], `Data_Guru_${new Date().toISOString().split('T')[0]}.xlsx`, "GURU");
     };
 
     const handleDownloadTemplate = () => {
-        const template = [
-            {
-                "Nama Lengkap": "CONTOH NAMA GURU",
-                "NIK": "3501010101010001",
-                "NUPTK": "1234567890123456",
-                "PEGID": "G.12345",
-                "NPK": "9876543210",
-                "L/P": "L",
-                "Tempat Lahir": "Blitar",
-                "Tgl Lahir": "1985-01-01",
-                "Kualifikasi": "S1 Pendidikan",
-                "Thn Lulus": "2010",
-                "Sertifikasi": "Sudah",
-                "Thn Sertifikasi": "2015",
-                "Inpassing": "Sudah",
-                "NRG": "12345678",
-                "TMT": "2011-01-01",
-                "No SK Awal": "SK/2011/001",
-                "Masa Kerja": "13 tahun",
-                "Tugas Tambahan": "Wali Kelas",
-                "No. HP": "08123456789",
-                "Email": "guru@example.com",
-                "No. Rekening": "1234567890",
-                "Ibu Kandung": "Nama Ibu",
-                "Status": "Aktif"
-            }
+        const headers = [
+            "No", "Nama Lengkap", "NIK", "NUPTK", "PEGID", "NPK", "L/P", "Tempat Lahir", "Tgl Lahir",
+            "Kualifikasi", "Thn Lulus", "Sertifikasi", "Thn Sertifikasi", "Inpassing", "NRG", "TMT",
+            "No SK Awal", "Masa Kerja", "Tugas Tambahan", "No. HP", "Email", "No. Rekening", "Ibu Kandung", "Status"
         ];
-        const worksheet = XLSX.utils.json_to_sheet(template);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "TEMPLATE_GURU");
-        XLSX.writeFile(workbook, "Kerangka_Data_Guru.xlsx");
+        const templateRow = [
+            1,
+            "CONTOH NAMA GURU",
+            "3501010101010001",
+            "1234567890123456",
+            "G.12345",
+            "9876543210",
+            "L",
+            "Blitar",
+            "1985-01-01",
+            "S1 Pendidikan",
+            "2010",
+            "Sudah",
+            "2015",
+            "Sudah",
+            "12345678",
+            "2011-01-01",
+            "SK/2011/001",
+            "13 tahun",
+            "Wali Kelas",
+            "08123456789",
+            "guru@example.com",
+            "1234567890",
+            "Nama Ibu",
+            "Aktif"
+        ];
+
+        exportStyledExcel([headers, templateRow], "Kerangka_Data_Guru.xlsx", "TEMPLATE_GURU");
     };
 
     const handleDelete = async (id: any) => {

@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
+import { exportStyledExcel } from "@/lib/excelUtils";
 
 export default function AlumniPage() {
     const [alumni, setAlumni] = useState<any[]>([]);
@@ -98,11 +99,33 @@ export default function AlumniPage() {
     };
 
     const handleExportExcel = () => {
-        if (alumni.length === 0) return alert("Data kosong!");
-        const worksheet = XLSX.utils.json_to_sheet(alumni);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "ALUMNI");
-        XLSX.writeFile(workbook, `Data_Alumni_${new Date().toISOString().split('T')[0]}.xlsx`);
+        const sortedData = [...alumni].sort((a, b) => {
+            const thnA = String(a.tahunLulus || "").toLowerCase();
+            const thnB = String(b.tahunLulus || "").toLowerCase();
+            const compareThn = thnB.localeCompare(thnA); // Terbaru dulu
+            if (compareThn !== 0) return compareThn;
+            return (a.namaLengkap || "").toLowerCase().localeCompare((b.namaLengkap || "").toLowerCase());
+        });
+
+        if (sortedData.length === 0) return alert("Data kosong!");
+
+        const headers = ["No", "Nama Lengkap", "Angkatan", "NISM", "NISN", "NIK", "L/P", "Tempat, Tgl Lahir", "Umur", "Ayah / Ibu", "No Telepon", "Alamat Lengkap"];
+        const dataRows = sortedData.map((item, idx) => [
+            idx + 1,
+            item.namaLengkap,
+            item.tahunLulus,
+            item.nism,
+            item.nisn,
+            item.nik,
+            item.jenisKelamin,
+            `${item.tempatLahir}, ${item.tanggalLahir ? new Date(item.tanggalLahir).toLocaleDateString("id-ID") : "-"}`,
+            item.umur,
+            `${item.namaAyah} / ${item.namaIbu}`,
+            item.noTelepon,
+            item.alamat
+        ]);
+
+        exportStyledExcel([headers, ...dataRows], `Data_Alumni_${new Date().toISOString().split('T')[0]}.xlsx`, "ALUMNI");
     };
 
     const handleDelete = async (id: any) => {
@@ -146,26 +169,23 @@ export default function AlumniPage() {
     }, [alumni, search, filterTahun]);
 
     const handleDownloadTemplate = () => {
-        const template = [
-            {
-                "Nama Lengkap": "CONTOH NAMA ALUMNI",
-                "Angkatan": "2023/2024",
-                "NISM": "12345",
-                "NISN": "0012345678",
-                "NIK": "3501010101010001",
-                "L/P": "L",
-                "Tempat Lahir": "Blitar",
-                "Tgl Lahir": "2010-05-20",
-                "Umur": "14",
-                "Ayah / Ibu": "Nama Ayah / Nama Ibu",
-                "No Telepon": "08123456789",
-                "Alamat Lengkap": "Jl. Melati No. 10, Papungan"
-            }
+        const headers = ["No", "Nama Lengkap", "Angkatan", "NISM", "NISN", "NIK", "L/P", "Tempat Lahir", "Tgl Lahir", "Ayah / Ibu", "No Telepon", "Alamat Lengkap"];
+        const templateRow = [
+            1,
+            "CONTOH NAMA ALUMNI",
+            "2023/2024",
+            "12345",
+            "0012345678",
+            "3501010101010001",
+            "L",
+            "Blitar",
+            "2010-05-20",
+            "Nama Ayah / Nama Ibu",
+            "08123456789",
+            "Jl. Melati No. 10, Papungan"
         ];
-        const worksheet = XLSX.utils.json_to_sheet(template);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "TEMPLATE_ALUMNI");
-        XLSX.writeFile(workbook, "Kerangka_Data_Alumni.xlsx");
+
+        exportStyledExcel([headers, templateRow], "Kerangka_Data_Alumni.xlsx", "TEMPLATE_ALUMNI");
     };
 
     const handleImportExcel = async (e: React.ChangeEvent<HTMLInputElement>) => {

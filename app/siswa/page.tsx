@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import { useRouter } from "next/navigation";
+import { exportStyledExcel } from "@/lib/excelUtils";
 
 
 export default function SiswaPage() {
@@ -181,37 +182,62 @@ export default function SiswaPage() {
     };
 
     const handleExportExcel = () => {
-        const dataToExport = dataSiswa;
-        if (dataToExport.length === 0) return alert("Data kosong!");
-        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "SISWA");
-        XLSX.writeFile(workbook, `Data_Siswa_${new Date().toISOString().split('T')[0]}.xlsx`);
+        const sortedData = [...dataSiswa].sort((a, b) => {
+            const klsA = String(a.tingkatRombel || "").toLowerCase();
+            const klsB = String(b.tingkatRombel || "").toLowerCase();
+            const compareKelas = klsA.localeCompare(klsB, undefined, { numeric: true });
+            if (compareKelas !== 0) return compareKelas;
+            const namaA = (a.namaLengkap || "").toLowerCase();
+            const namaB = (b.namaLengkap || "").toLowerCase();
+            return namaA.localeCompare(namaB);
+        });
+
+        if (sortedData.length === 0) return alert("Data kosong!");
+
+        const headers = ["No", "Nama Lengkap", "NISM", "NISN", "NIK", "Tempat Lahir", "Tgl Lahir", "Tingkat - Rombel", "Umur", "Status", "L/P", "Alamat", "No Telepon", "Ayah Kandung", "Ibu Kandung", "Nomor KK"];
+        const dataRows = sortedData.map((item, idx) => [
+            idx + 1,
+            item.namaLengkap,
+            item.nism,
+            item.nisn,
+            item.nik,
+            item.tempatLahir,
+            item.tanggalLahir ? new Date(item.tanggalLahir).toLocaleDateString("id-ID") : "-",
+            item.tingkatRombel,
+            item.umur,
+            item.status,
+            item.jenisKelamin,
+            item.alamat,
+            item.noTelepon,
+            item.namaAyah,
+            item.namaIbu,
+            item.nomorKK
+        ]);
+
+        exportStyledExcel([headers, ...dataRows], `Data_Siswa_${new Date().toISOString().split('T')[0]}.xlsx`, "SISWA");
     };
 
     const handleDownloadTemplate = () => {
-        const template = [
-            {
-                "Nama Lengkap": "CONTOH NAMA SISWA",
-                "NISM": "12345",
-                "NISN": "0012345678",
-                "NIK": "3501010101010001",
-                "Tempat Lahir": "Blitar",
-                "Tgl Lahir": "2015-01-01",
-                "Tingkat - Rombel": "Kelas 1",
-                "Status": "Aktif",
-                "L/P": "L",
-                "Alamat": "Jl. Mawar No. 123",
-                "No Telepon": "08123456789",
-                "Ayah Kandung": "Nama Ayah",
-                "Ibu Kandung": "Nama Ibu",
-                "Nomor KK": "3501010101010001"
-            }
+        const headers = ["No", "Nama Lengkap", "NISM", "NISN", "NIK", "Tempat Lahir", "Tgl Lahir", "Tingkat - Rombel", "Status", "L/P", "Alamat", "No Telepon", "Ayah Kandung", "Ibu Kandung", "Nomor KK"];
+        const templateRow = [
+            1,
+            "CONTOH NAMA SISWA",
+            "12345",
+            "0012345678",
+            "3501010101010001",
+            "Blitar",
+            "2015-01-01",
+            "Kelas 1",
+            "Aktif",
+            "L",
+            "Jl. Mawar No. 123",
+            "08123456789",
+            "Nama Ayah",
+            "Nama Ibu",
+            "3501010101010001"
         ];
-        const worksheet = XLSX.utils.json_to_sheet(template);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "TEMPLATE_SISWA");
-        XLSX.writeFile(workbook, "Kerangka_Data_Siswa.xlsx");
+
+        exportStyledExcel([headers, templateRow], "Kerangka_Data_Siswa.xlsx", "TEMPLATE_SISWA");
     };
 
     const handleDelete = async (id: any) => {
