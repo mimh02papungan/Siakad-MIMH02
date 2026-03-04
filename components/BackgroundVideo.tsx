@@ -11,10 +11,10 @@ export default function BackgroundVideo() {
                 alt="Background Upacara"
                 fill
                 priority
-                className="object-cover brightness-[1.0]"
+                className="object-cover brightness-[0.85]"
             />
             {/* Overlay to ensure readability */}
-            <div className="absolute inset-0 bg-slate-950/20"></div>
+            <div className="absolute inset-0 bg-slate-950/40"></div>
         </div>
     );
 }

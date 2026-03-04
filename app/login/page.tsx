@@ -49,13 +49,13 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
             <BackgroundVideo />
-            <div className="w-full max-w-md bg-white/5 backdrop-blur-2xl rounded-[32px] shadow-2xl border border-white/10 overflow-hidden relative z-10 transition-all duration-500 hover:border-blue-500/30">
+            <div className="w-full max-w-md bg-slate-900/70 backdrop-blur-2xl rounded-[32px] shadow-2xl border border-white/20 overflow-hidden relative z-10 transition-all duration-500 hover:border-blue-500/50">
                 <div className="p-8 md:p-10">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        <h1 className="text-2xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent drop-shadow-sm whitespace-nowrap">
                             Selamat Datang
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400 mt-2">
+                        <p className="text-slate-200 font-medium mt-3">
                             Silakan login untuk mengakses sistem
                         </p>
                     </div>
@@ -71,21 +71,21 @@ export default function LoginPage() {
 
                     <form onSubmit={handleProcess} className="space-y-6">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-white mb-2 ml-1">
                                 Username
                             </label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:ring-2 focus:ring-indigo-500 transition-all outline-none text-white placeholder-slate-500 backdrop-blur-md"
+                                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-indigo-500 transition-all outline-none text-white placeholder-slate-400 backdrop-blur-md"
                                 placeholder="Masukkan username"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                            <label className="block text-sm font-bold text-white mb-2 ml-1">
                                 Password
                             </label>
                             <div className="relative group">
@@ -93,7 +93,7 @@ export default function LoginPage() {
                                     type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:ring-2 focus:ring-indigo-500 transition-all outline-none text-white placeholder-slate-500 backdrop-blur-md pr-12"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-indigo-500 transition-all outline-none text-white placeholder-slate-400 backdrop-blur-md pr-12"
                                     placeholder="Masukkan password"
                                     required
                                 />
@@ -132,7 +132,7 @@ export default function LoginPage() {
                         </button>
                     </form>
                 </div>
-                <div className="px-8 py-4 bg-white/5 border-t border-white/10 text-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                <div className="px-8 py-5 bg-black/20 border-t border-white/10 text-center text-[10px] font-bold text-slate-300 uppercase tracking-widest">
                     &copy; {new Date().getFullYear()} MI Miftahul Huda 02 • Powered by RWM
                 </div>
             </div>
