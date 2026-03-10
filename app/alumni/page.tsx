@@ -528,20 +528,6 @@ export default function AlumniPage() {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Jenis Kelamin</label>
-                                <select name="jenisKelamin" value={formData.jenisKelamin || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold">
-                                    <option value="">Pilih</option>
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
-                                </select>
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NIK (Nomor Induk Kependudukan)</label>
-                                <input name="nik" value={formData.nik || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-mono font-bold" placeholder="16 Digit NIK..." />
-                            </div>
-
-                            <div className="flex flex-col gap-2">
                                 <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NISM</label>
                                 <input name="nism" value={formData.nism || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
                             </div>
@@ -552,8 +538,17 @@ export default function AlumniPage() {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Nomor KK</label>
-                                <input name="nomorKK" value={formData.nomorKK || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                                <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NIK (Nomor Induk Kependudukan)</label>
+                                <input name="nik" value={formData.nik || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-mono font-bold" placeholder="16 Digit NIK..." />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Jenis Kelamin</label>
+                                <select name="jenisKelamin" value={formData.jenisKelamin || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold">
+                                    <option value="">Pilih</option>
+                                    <option value="L">Laki-laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
                             </div>
 
                             <div className="flex flex-col gap-2">
@@ -567,13 +562,8 @@ export default function AlumniPage() {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <label className="text-blue-500 uppercase font-black tracking-widest text-[10px]">Umur (Automated)</label>
+                                <label className="text-blue-500 uppercase font-black tracking-widest text-[10px]">Umur (Otomatis)</label>
                                 <input name="umur" value={formData.umur || 0} readOnly className="w-full bg-slate-800 border border-slate-700 p-3.5 rounded-2xl font-black text-blue-400 cursor-not-allowed" />
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">No Telp / WhatsApp</label>
-                                <input name="noTelepon" value={formData.noTelepon || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" placeholder="08xxxx" />
                             </div>
 
                             <div className="flex flex-col gap-2">
@@ -587,13 +577,8 @@ export default function AlumniPage() {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">No KIP / PIP (Opsional)</label>
-                                <input name="nomorKipPip" value={formData.nomorKipPip || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
-                            </div>
-
-                            <div className="flex flex-col gap-2">
-                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Kebutuhan Khusus</label>
-                                <input name="disabilitas" value={formData.disabilitas || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" placeholder="-" />
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">No Telp / WhatsApp</label>
+                                <input name="noTelepon" value={formData.noTelepon || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" placeholder="08xxxx" />
                             </div>
 
                             <div className="flex flex-col gap-2 col-span-1 md:col-span-2 lg:col-span-4">
