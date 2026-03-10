@@ -532,7 +532,7 @@ export default function GuruPage() {
 
                     {/* MODAL VIEW DETAIL */}
                     {isViewModalOpen && selectedGuru && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-300">
+                        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-300">
                             <div className="bg-[#0f172a] border border-slate-700 w-full max-w-5xl rounded-[2.5rem] p-10 shadow-3xl overflow-y-auto max-h-[90vh] relative animate-in zoom-in duration-300">
                                 {/* Close Button */}
                                 <button
@@ -666,7 +666,7 @@ export default function GuruPage() {
                     )}
                     {/* MODAL EDIT / TAMBAH */}
                     {isModalOpen && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
+                        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 backdrop-blur-md p-4">
                             <div className="bg-[#0f172a]/95 backdrop-blur-2xl border border-white/10 w-full max-w-6xl rounded-3xl p-8 shadow-2xl overflow-y-auto max-h-[95vh] relative animate-in zoom-in duration-300">
                                 <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                                     <h2 className="text-2xl font-black text-purple-500 uppercase tracking-widest">{isEditing ? "Edit" : "Tambah"} Data Guru</h2>

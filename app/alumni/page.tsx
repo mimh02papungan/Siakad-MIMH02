@@ -436,137 +436,183 @@ export default function AlumniPage() {
                         </div>
                     </div>
 
-                    {/* MODAL VIEW DETAIL */}
-                    {isViewModalOpen && selectedAlumni && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-300 text-sm">
-                            <div className="bg-[#0f172a] border border-slate-700 w-full max-w-4xl rounded-[2.5rem] p-10 shadow-3xl overflow-y-auto max-h-[90vh] relative animate-in zoom-in duration-300">
-                                <button onClick={() => setIsViewModalOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-white p-2 hover:bg-white/10 rounded-full transition-colors text-3xl font-black">&times;</button>
-                                <div className="flex items-center gap-6 mb-10 border-b border-white/10 pb-8">
-                                    <div className="w-24 h-24 bg-gradient-to-br from-yellow-600 to-amber-700 rounded-3xl flex items-center justify-center text-4xl font-black text-white shadow-2xl shadow-yellow-900/40">
-                                        {selectedAlumni.namaLengkap?.charAt(0)}
-                                    </div>
-                                    <div>
-                                        <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-1">{selectedAlumni.namaLengkap}</h2>
-                                        <div className="flex flex-wrap gap-3 mt-2">
-                                            <span className="px-4 py-1.5 bg-yellow-900/40 text-yellow-400 rounded-full border border-yellow-800/50 text-[10px] font-bold uppercase tracking-widest">Alumni {selectedAlumni.tahunLulus}</span>
-                                            <span className="px-4 py-1.5 bg-purple-900/40 text-purple-400 rounded-full border border-purple-800/50 text-[10px] font-bold uppercase tracking-widest">{selectedAlumni.jenisKelamin === "Laki-laki" || selectedAlumni.jenisKelamin === "L" ? "LAKI-LAKI" : "PEREMPUAN"}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                                    <div className="space-y-6">
-                                        <h3 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2"><span className="w-8 h-[2px] bg-yellow-600"></span> Identitas Alumni</h3>
-                                        <div className="grid grid-cols-2 gap-6">
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NIK</p><p className="font-bold text-white font-mono">{selectedAlumni.nik || "-"}</p></div>
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Umur</p><p className="font-bold text-white">{selectedAlumni.umur} Tahun</p></div>
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NISM</p><p className="font-bold text-white">{selectedAlumni.nism || "-"}</p></div>
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NISN</p><p className="font-bold text-white tracking-widest">{selectedAlumni.nisn || "-"}</p></div>
-                                            <div className="col-span-2"><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">TTL</p><p className="font-bold text-white uppercase">{selectedAlumni.tempatLahir}, {selectedAlumni.tanggalLahir ? new Date(selectedAlumni.tanggalLahir).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' }) : "-"}</p></div>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-6">
-                                        <h3 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2"><span className="w-8 h-[2px] bg-blue-600"></span> Informasi Sosial</h3>
-                                        <div className="space-y-4">
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">No. Handphone</p><p className="font-bold text-white">{selectedAlumni.noTelepon || "-"}</p></div>
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Orang Tua</p><p className="font-bold text-white uppercase">{selectedAlumni.namaAyah} / {selectedAlumni.namaIbu}</p></div>
-                                            <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Alamat Lengkap</p><p className="font-bold text-white leading-relaxed">{selectedAlumni.alamat || "-"}</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-12 pt-8 border-t border-gray-800 flex justify-end">
-                                    <button onClick={() => setIsViewModalOpen(false)} className="px-10 py-4 bg-gray-800 hover:bg-gray-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all">Tutup</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* MODAL EDIT / TAMBAH */}
-                    {isModalOpen && (
-                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4">
-                            <div className="bg-[#0f172a] border border-slate-700 w-full max-w-6xl rounded-3xl p-8 shadow-2xl overflow-y-auto max-h-[95vh] relative animate-in zoom-in duration-300 text-xs">
-                                <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-                                    <h2 className="text-2xl font-black text-yellow-500 uppercase tracking-widest">{isEditing ? "Edit" : "Tambah"} Data Alumni</h2>
-                                    <button onClick={() => setIsModalOpen(false)} className="text-gray-500 hover:text-white text-3xl font-black">&times;</button>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <div className="flex flex-col gap-2 col-span-1 md:col-span-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest">Nama Lengkap</label>
-                                        <input name="namaLengkap" value={formData.namaLengkap || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500 shadow-inner" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest">Tahun Lulus</label>
-                                        <input name="tahunLulus" value={formData.tahunLulus || ""} onChange={handleInputChange} placeholder="Ex: 2024/2025" className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest">Jenis Kelamin</label>
-                                        <select name="jenisKelamin" value={formData.jenisKelamin || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500">
-                                            <option value="">Pilih</option>
-                                            <option value="L">Laki-laki</option>
-                                            <option value="P">Perempuan</option>
-                                        </select>
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest font-mono">NIK</label>
-                                        <input name="nik" value={formData.nik || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500 font-mono" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest font-mono">NISM</label>
-                                        <input name="nism" value={formData.nism || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest font-mono">NISN</label>
-                                        <input name="nisn" value={formData.nisn || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest">Nomor KK</label>
-                                        <input name="nomorKK" value={formData.nomorKK || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Tempat Lahir</label>
-                                        <input name="tempatLahir" value={formData.tempatLahir || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Tanggal Lahir</label>
-                                        <input type="date" name="tanggalLahir" value={formData.tanggalLahir || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-blue-500 uppercase font-black tracking-widest text-[10px]">Umur (Otomatis)</label>
-                                        <input name="umur" value={formData.umur || 0} readOnly className="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl font-bold text-blue-400 cursor-not-allowed" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">No Telp / WhatsApp</label>
-                                        <input name="noTelepon" value={formData.noTelepon || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Nama Ayah</label>
-                                        <input name="namaAyah" value={formData.namaAyah || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Nama Ibu Kandung</label>
-                                        <input name="namaIbu" value={formData.namaIbu || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Nomor KIP/PIP</label>
-                                        <input name="nomorKipPip" value={formData.nomorKipPip || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest text-[10px]">Disabilitas / Khusus</label>
-                                        <input name="disabilitas" value={formData.disabilitas || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:ring-2 focus:ring-yellow-500" />
-                                    </div>
-                                    <div className="flex flex-col gap-2 col-span-1 md:col-span-2 lg:col-span-4">
-                                        <label className="block text-gray-500 uppercase font-black tracking-widest">Alamat Domisili Sekarang</label>
-                                        <textarea name="alamat" value={formData.alamat || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-4 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 h-24" />
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 mt-12 pt-6 border-t border-white/5">
-                                    <button onClick={handleSave} className="flex-1 bg-yellow-600 hover:bg-yellow-500 p-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-yellow-900/20 transition-all active:scale-95">💾 Simpan Data Alumni</button>
-                                    <button onClick={() => setIsModalOpen(false)} className="px-10 bg-slate-800 hover:bg-slate-700 p-4 rounded-2xl font-bold uppercase transition-all">Batal</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
                 </div>
             </main>
+
+            {/* MODAL VIEW DETAIL (FIXED DESIGN & OVERLAP) */}
+            {isViewModalOpen && selectedAlumni && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-300 text-sm">
+                    <div className="bg-[#0f172a] border border-slate-700 w-full max-w-4xl rounded-[2.5rem] p-10 shadow-3xl overflow-y-auto max-h-[90vh] relative animate-in zoom-in duration-300">
+                        {/* Close Button SVG Style */}
+                        <button
+                            onClick={() => setIsViewModalOpen(false)}
+                            className="absolute top-8 right-8 text-gray-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        <div className="flex items-center gap-6 mb-10 border-b border-white/10 pb-8">
+                            <div className="w-24 h-24 bg-gradient-to-br from-yellow-600 to-amber-700 rounded-3xl flex items-center justify-center text-4xl font-black text-white shadow-2xl shadow-yellow-900/40">
+                                {selectedAlumni.namaLengkap?.charAt(0)}
+                            </div>
+                            <div>
+                                <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-1">{selectedAlumni.namaLengkap}</h2>
+                                <div className="flex flex-wrap gap-3 mt-2">
+                                    <span className="px-4 py-1.5 bg-yellow-900/40 text-yellow-400 rounded-full border border-yellow-800/50 text-[10px] font-bold uppercase tracking-widest">Alumni {selectedAlumni.tahunLulus}</span>
+                                    <span className="px-4 py-1.5 bg-purple-900/40 text-purple-400 rounded-full border border-purple-800/50 text-[10px] font-bold uppercase tracking-widest">{selectedAlumni.jenisKelamin === "Laki-laki" || selectedAlumni.jenisKelamin === "L" ? "LAKI-LAKI" : "PEREMPUAN"}</span>
+                                    <span className="px-4 py-1.5 bg-blue-900/40 text-blue-400 rounded-full border border-blue-800/50 text-[10px] font-bold uppercase tracking-widest">AKTIF</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                            <div className="space-y-6">
+                                <h3 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                                    <span className="w-8 h-[2px] bg-yellow-600"></span> Identitas Alumni
+                                </h3>
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NIK</p><p className="font-bold text-white font-mono">{selectedAlumni.nik || "-"}</p></div>
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Umur</p><p className="font-bold text-white">{selectedAlumni.umur} Tahun</p></div>
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NISM</p><p className="font-bold text-white font-mono">{selectedAlumni.nism || "-"}</p></div>
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">NISN</p><p className="font-bold text-white font-mono">{selectedAlumni.nisn || "-"}</p></div>
+                                    <div className="col-span-2"><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Tempat, Tgl Lahir</p><p className="font-bold text-white uppercase">{selectedAlumni.tempatLahir}, {selectedAlumni.tanggalLahir ? new Date(selectedAlumni.tanggalLahir).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' }) : "-"}</p></div>
+                                </div>
+                            </div>
+                            <div className="space-y-6">
+                                <h3 className="text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2">
+                                    <span className="w-8 h-[2px] bg-amber-600"></span> Informasi Sosial
+                                </h3>
+                                <div className="space-y-4">
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">No. Handphone / WA</p><p className="font-bold text-white">{selectedAlumni.noTelepon || "-"}</p></div>
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Nama Orang Tua</p><p className="font-bold text-white uppercase">{selectedAlumni.namaAyah} / {selectedAlumni.namaIbu}</p></div>
+                                    <div><p className="text-gray-500 text-[9px] font-black uppercase tracking-widest mb-1">Alamat Domisili Sekarang</p><p className="font-bold text-white leading-relaxed">{selectedAlumni.alamat || "-"}</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-12 pt-8 border-t border-gray-800 flex justify-end">
+                            <button onClick={() => setIsViewModalOpen(false)} className="px-10 py-4 bg-gray-800 hover:bg-gray-700 text-white font-black uppercase tracking-widest rounded-2xl transition-all active:scale-95">Tutup Detail</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* MODAL EDIT / TAMBAH (FIXED DESIGN & OVERLAP) */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-300">
+                    <div className="bg-[#0f172a] border border-slate-700 w-full max-w-6xl rounded-3xl p-10 shadow-3xl overflow-y-auto max-h-[95vh] relative animate-in zoom-in duration-300 text-xs">
+                        <div className="flex justify-between items-center mb-10 border-b border-white/10 pb-6">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-yellow-600/20 rounded-2xl flex items-center justify-center text-yellow-500 text-2xl font-black">
+                                    {isEditing ? "✎" : "＋"}
+                                </div>
+                                <div>
+                                    <h2 className="text-2xl font-black text-white uppercase tracking-widest">{isEditing ? "Edit" : "Tambah"} Data Alumni</h2>
+                                    <p className="text-gray-500 font-bold uppercase tracking-tighter text-[10px]">Silakan lengkapi formulir alumni di bawah ini</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setIsModalOpen(false)} className="text-gray-500 hover:text-white text-4xl font-black transition-colors">&times;</button>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div className="flex flex-col gap-2 col-span-1 md:col-span-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Nama Lengkap</label>
+                                <input name="namaLengkap" value={formData.namaLengkap || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 shadow-inner font-bold" placeholder="Masukkan nama lengkap..." />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Tahun Lulus / Angkatan</label>
+                                <input name="tahunLulus" value={formData.tahunLulus || ""} onChange={handleInputChange} placeholder="Ex: 2024/2025" className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Jenis Kelamin</label>
+                                <select name="jenisKelamin" value={formData.jenisKelamin || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold">
+                                    <option value="">Pilih</option>
+                                    <option value="L">Laki-laki</option>
+                                    <option value="P">Perempuan</option>
+                                </select>
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NIK (Nomor Induk Kependudukan)</label>
+                                <input name="nik" value={formData.nik || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-mono font-bold" placeholder="16 Digit NIK..." />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NISM</label>
+                                <input name="nism" value={formData.nism || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest font-mono text-[10px]">NISN</label>
+                                <input name="nisn" value={formData.nisn || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Nomor KK</label>
+                                <input name="nomorKK" value={formData.nomorKK || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Tempat Lahir</label>
+                                <input name="tempatLahir" value={formData.tempatLahir || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Tanggal Lahir</label>
+                                <input type="date" name="tanggalLahir" value={formData.tanggalLahir || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold text-white uppercase" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-blue-500 uppercase font-black tracking-widest text-[10px]">Umur (Automated)</label>
+                                <input name="umur" value={formData.umur || 0} readOnly className="w-full bg-slate-800 border border-slate-700 p-3.5 rounded-2xl font-black text-blue-400 cursor-not-allowed" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">No Telp / WhatsApp</label>
+                                <input name="noTelepon" value={formData.noTelepon || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" placeholder="08xxxx" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Nama Ayah</label>
+                                <input name="namaAyah" value={formData.namaAyah || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Nama Ibu Kandung</label>
+                                <input name="namaIbu" value={formData.namaIbu || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">No KIP / PIP (Opsional)</label>
+                                <input name="nomorKipPip" value={formData.nomorKipPip || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" />
+                            </div>
+
+                            <div className="flex flex-col gap-2">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Kebutuhan Khusus</label>
+                                <input name="disabilitas" value={formData.disabilitas || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-3.5 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-500 font-bold" placeholder="-" />
+                            </div>
+
+                            <div className="flex flex-col gap-2 col-span-1 md:col-span-2 lg:col-span-4">
+                                <label className="text-gray-500 uppercase font-black tracking-widest text-[10px]">Alamat Domisili Sekarang (Lengkap)</label>
+                                <textarea name="alamat" value={formData.alamat || ""} onChange={handleInputChange} className="w-full bg-slate-900 border border-slate-700 p-5 rounded-3xl outline-none focus:ring-2 focus:ring-yellow-500 h-28 font-medium" placeholder="Nama jalan, RT/RW, Kecamatan..." />
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4 mt-12 pt-8 border-t border-white/5">
+                            <button onClick={handleSave} className="flex-1 bg-yellow-600 hover:bg-yellow-500 p-4 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-yellow-900/30 transition-all active:scale-95 text-sm">
+                                💾 Simpan Data Alumni
+                            </button>
+                            <button onClick={() => setIsModalOpen(false)} className="px-12 bg-slate-800 hover:bg-slate-700 p-4 rounded-2xl font-black uppercase tracking-widest transition-all text-sm">
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
