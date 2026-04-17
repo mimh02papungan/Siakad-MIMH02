@@ -88,9 +88,25 @@ export async function POST(request: Request) {
     // LOGIKA TAMBAH MANUAL (SINGLE DATA)
     const single = await prisma.siswa.create({
       data: {
-        ...body,
+        namaLengkap: body.namaLengkap || "",
+        nism: body.nism || "",
+        nisn: body.nisn || "",
+        nik: body.nik || "",
+        tempatLahir: body.tempatLahir || "",
         tanggalLahir: body.tanggalLahir ? new Date(body.tanggalLahir) : new Date(),
+        tingkatRombel: body.tingkatRombel || "",
         umur: parseInt(body.umur) || 0,
+        status: body.status || "Aktif",
+        jenisKelamin: body.jenisKelamin || "L",
+        alamat: body.alamat || "",
+        noTelepon: body.noTelepon || "",
+        kebutuhanKhusus: body.kebutuhanKhusus || "-",
+        disabilitas: body.disabilitas || "-",
+        nomorKipPip: body.nomorKipPip || "-",
+        namaAyah: body.namaAyah || "",
+        namaIbu: body.namaIbu || "",
+        nomorKK: body.nomorKK || "",
+        tahunAjaran: body.tahunAjaran || null,
       }
     });
     await createNotification("Tambah Siswa", `Siswa baru bernama ${single.namaLengkap} berhasil ditambahkan.`, "SUCCESS");

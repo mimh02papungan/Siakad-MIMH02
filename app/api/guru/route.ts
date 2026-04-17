@@ -19,9 +19,19 @@ export async function POST(req: Request) {
   try {
     await prisma.$connect();
     const body = await req.json();
-    const rawData = Array.isArray(body) ? body : (body.data || body.gurus || null);
+    
+    let rawData: any[] = [];
+    if (Array.isArray(body)) {
+      rawData = body;
+    } else if (body.data && Array.isArray(body.data)) {
+      rawData = body.data;
+    } else if (body.gurus && Array.isArray(body.gurus)) {
+      rawData = body.gurus;
+    } else if (body && typeof body === 'object' && Object.keys(body).length > 0) {
+      rawData = [body];
+    }
 
-    if (!rawData || !Array.isArray(rawData)) {
+    if (rawData.length === 0) {
       return NextResponse.json({ error: "Data kosong" }, { status: 400 });
     }
 
